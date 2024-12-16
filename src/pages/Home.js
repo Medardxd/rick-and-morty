@@ -5,16 +5,19 @@ import axios from 'axios';
 function Home() {
   const [characters, setCharacters] = useState([]);
   const navigate = useNavigate();
+  const [info, setInfo] = useState({}); 
+  const [currentPage, setCurrentPage] = useState('https://rickandmortyapi.com/api/character');
 
   useEffect(() => {
-    axios.get('https://rickandmortyapi.com/api/character')
+    axios.get(currentPage)
       .then(response => {
         setCharacters(response.data.results);
+        setInfo(response.data.info);
       })
       .catch(error => {
         console.error('Error fetching data:', error);
       });
-  }, []);
+  }, [currentPage]);
 
   return (
     <div>
@@ -41,6 +44,10 @@ function Home() {
           ))}
         </tbody>
       </table>
+      <div>
+        <button onClick={() => setCurrentPage(info.prev)} disabled={!info.prev}>Previous</button>
+        <button onClick={() => setCurrentPage(info.next)} disabled={!info.next}>Next</button>
+      </div>
     </div>
   );
 }
