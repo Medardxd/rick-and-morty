@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import './Profile.css';
 
 function Profile() {
   const { id } = useParams();
@@ -22,10 +23,10 @@ function Profile() {
   }
 
   return (
-    <div>
+    <div className="profile-container">
       <h1>{character.name}</h1>
-      <p><strong>Status:</strong> {character.status}</p>
       <p><strong>Species:</strong> {character.species}</p>
+      <p><strong>Status:</strong> {character.status}</p>
       <p><strong>Gender:</strong> {character.gender}</p>
       <p><strong>Location:</strong> {character.location.name}</p>
       <img src={character.image} alt={character.name} style={{ width: '200px' }} />
