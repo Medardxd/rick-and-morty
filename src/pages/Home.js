@@ -9,6 +9,11 @@ function Home() {
   const [currentPage, setCurrentPage] = useState(
     () => parseInt(localStorage.getItem('currentPage')) || 1
   );
+  const [searchQuery, setSearchQuery] = useState("");
+  const filteredCharacters = characters.filter(character =>
+    character.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+  
 
   useEffect(() => {
     localStorage.setItem('currentPage', currentPage); // Save to local storage
@@ -26,6 +31,12 @@ function Home() {
   return (
     <div>
       <h1>Rick and Morty Characters</h1>
+      <input
+        type="text"
+        placeholder="Search by name"
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)} 
+      />
       <table border="1">
         <thead>
           <tr>
@@ -36,7 +47,7 @@ function Home() {
           </tr>
         </thead>
         <tbody>
-          {characters.map(character => (
+          {filteredCharacters.map((character) => (
             <tr key={character.id} onClick={() => navigate(`/profile/${character.id}`)} style={{ cursor: 'pointer' }}>
                 <td>
                     <img src={character.image} alt={character.name} className="avatar-img" />
