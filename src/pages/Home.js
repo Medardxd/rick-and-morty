@@ -22,17 +22,21 @@ function Home() {
       <table border="1">
         <thead>
           <tr>
+            <th>Avatar</th>
             <th>Name</th>
-            <th>Status</th>
             <th>Species</th>
+            <th>Status</th>
           </tr>
         </thead>
         <tbody>
           {characters.map(character => (
             <tr key={character.id} onClick={() => navigate(`/profile/${character.id}`)} style={{ cursor: 'pointer' }}>
-              <td>{character.name}</td>
-              <td>{character.status}</td>
-              <td>{character.species}</td>
+                <td>
+                    <img src={character.image} alt={character.name} className="avatar-img" />
+                </td>
+                <td>{character.name}</td>
+                <td>{character.species}</td>
+                <td>{character.status}</td>
             </tr>
           ))}
         </tbody>
