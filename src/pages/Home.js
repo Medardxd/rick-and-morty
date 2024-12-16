@@ -6,11 +6,15 @@ function Home() {
   const [characters, setCharacters] = useState([]);
   const navigate = useNavigate();
   const [info, setInfo] = useState({}); 
-  const [currentPage, setCurrentPage] = useState('https://rickandmortyapi.com/api/character');
+  const [currentPage, setCurrentPage] = useState(
+    () => parseInt(localStorage.getItem('currentPage')) || 1
+  );
 
   useEffect(() => {
-    axios.get(currentPage)
-      .then(response => {
+    localStorage.setItem('currentPage', currentPage); // Save to local storage
+    axios
+      .get(`https://rickandmortyapi.com/api/character?page=${currentPage}`)
+      .then((response) => {
         setCharacters(response.data.results);
         setInfo(response.data.info);
       })
@@ -45,8 +49,8 @@ function Home() {
         </tbody>
       </table>
       <div>
-        <button onClick={() => setCurrentPage(info.prev)} disabled={!info.prev}>Previous</button>
-        <button onClick={() => setCurrentPage(info.next)} disabled={!info.next}>Next</button>
+        <button onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))} disabled={!info?.prev}>Previous</button>
+        <button onClick={() => setCurrentPage((prev) => prev + 1)} disabled={!info?.next}>Next</button>
       </div>
     </div>
   );
